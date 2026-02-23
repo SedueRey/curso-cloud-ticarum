@@ -20,13 +20,14 @@ import es.um.atica.umufly.vuelos.adaptors.persistence.jpa.mapper.JpaPersistenceM
 import es.um.atica.umufly.vuelos.adaptors.persistence.jpa.repository.JpaReservaVueloRepository;
 import es.um.atica.umufly.vuelos.adaptors.persistence.jpa.repository.JpaReservaVueloViewRepository;
 import es.um.atica.umufly.vuelos.adaptors.persistence.jpa.repository.JpaVueloRepository;
-import es.um.atica.umufly.vuelos.application.port.ReservasVueloRepository;
+import es.um.atica.umufly.vuelos.application.port.ReservasVueloReadRepository;
+import es.um.atica.umufly.vuelos.application.port.ReservasVueloWriteRepository;
 import es.um.atica.umufly.vuelos.domain.model.DocumentoIdentidad;
 import es.um.atica.umufly.vuelos.domain.model.Pasajero;
 import es.um.atica.umufly.vuelos.domain.model.ReservaVuelo;
 
 @Component
-public class ReservasVueloPersistenceAdapter implements ReservasVueloRepository {
+public class ReservasVueloPersistenceAdapter implements ReservasVueloReadRepository, ReservasVueloWriteRepository {
 
 	private final JpaReservaVueloRepository jpaReservaVueloRepository;
 	private final JpaReservaVueloViewRepository jpaReservaVueloViewRepository;

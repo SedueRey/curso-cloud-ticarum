@@ -5,7 +5,7 @@ import java.util.UUID;
 import es.um.atica.umufly.vuelos.domain.model.DocumentoIdentidad;
 import es.um.atica.umufly.vuelos.domain.model.ReservaVuelo;
 
-public interface FormalizacionReservasVueloPort {
+public interface ReservasVueloWritePort {
 
 	UUID formalizarReservaVuelo( ReservaVuelo reservaVuelo );
 

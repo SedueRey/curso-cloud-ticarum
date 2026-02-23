@@ -6,7 +6,7 @@ import org.springframework.data.domain.Page;
 
 import es.um.atica.umufly.vuelos.domain.model.Vuelo;
 
-public interface VuelosRepository {
+public interface VuelosReadRepository {
 
 	Page<Vuelo> findVuelos( int pagina, int tamanioPagina );
 
