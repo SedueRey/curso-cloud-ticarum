@@ -51,7 +51,7 @@ public interface ReservasVueloReadRepository {
 	 * @param idReserva
 	 * @return
 	 */
-	ReservaVuelo findReservaById( UUID idReserva );
+	ReservaVuelo findReservaById( DocumentoIdentidad documentoIdentidad, UUID idReserva );
 
 	/**
 	 * Obtiene todas las reservas.
@@ -59,6 +59,6 @@ public interface ReservasVueloReadRepository {
 	 * @param idReserva
 	 * @return
 	 */
-	Page<ReservaVuelo> findReservas( int pagina, int tamanioPagina );
+	Page<ReservaVuelo> findReservas( DocumentoIdentidad documentoIdentidad, int pagina, int tamanioPagina );
 
 }

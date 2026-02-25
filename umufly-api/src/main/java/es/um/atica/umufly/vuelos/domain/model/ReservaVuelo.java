@@ -137,8 +137,11 @@ public class ReservaVuelo {
 	 *
 	 * @param fechaHoraActual
 	 */
-	public void cancelarReserva( LocalDateTime fechaHoraActual ) {
-		// TODO: Implementar operación
+	public void cancelarReserva( LocalDateTime now ) {
+		if ( now.isAfter( vuelo.getItinerario().salida() ) ) {
+			throw new VueloIniciadoException( "El vuelo se encuentra iniciado no se puede cancelar la reserva" );
+		}
+		estado = EstadoReserva.CANCELADA;
 	}
 
 }

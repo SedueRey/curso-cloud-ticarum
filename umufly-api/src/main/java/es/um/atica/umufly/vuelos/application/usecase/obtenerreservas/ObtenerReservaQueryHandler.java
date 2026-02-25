@@ -17,6 +17,6 @@ public class ObtenerReservaQueryHandler implements QueryHandler<ReservaVuelo, Ob
 
 	@Override
 	public ReservaVuelo handle( ObtenerReservaQuery query ) throws Exception {
-		return reservasVueloRepository.findReservaById( query.getIdReserva() );
+		return reservasVueloRepository.findReservaById( query.getDocumentoIdentidad(), query.getIdReserva() );
 	}
 }
