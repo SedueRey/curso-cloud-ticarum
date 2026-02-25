@@ -2,6 +2,7 @@ package es.um.atica.umufly.vuelos.application.usecase.cancelarreservas;
 
 import java.time.Clock;
 import java.time.LocalDateTime;
+import java.util.UUID;
 
 import org.springframework.stereotype.Component;
 
@@ -36,7 +37,8 @@ public class CancelarReservaCommandHandler implements SyncCommandHandler<Reserva
 		reservasVueloWriteRepository.cancelReserva( reservaVuelo.getId() );
 
 		// 3. Cancelamos la reserva llamando al backoffice para que se haga eco de la cancelacion
-		formalizacionReservasVueloPort.cancelarReservaVuelo( command.getDocumentoIdentidadTitular(), command.getIdReserva() );
+		UUID idReservaFormalizada = reservasVueloReadRepository.findIdFormalizadaByReservaById(command.getIdReserva());
+		formalizacionReservasVueloPort.cancelarReservaVuelo( command.getDocumentoIdentidadTitular(), idReservaFormalizada );
 
 		return reservaVuelo;
 	}

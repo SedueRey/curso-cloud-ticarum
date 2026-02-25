@@ -61,4 +61,6 @@ public interface ReservasVueloReadRepository {
 	 */
 	Page<ReservaVuelo> findReservas( DocumentoIdentidad documentoIdentidad, int pagina, int tamanioPagina );
 
+	UUID findIdFormalizadaByReservaById(UUID reservaId);
+	
 }
