@@ -42,7 +42,7 @@ public class VuelosQueryEndpointV2 {
 	public CollectionModel<VueloDTO> getVuelos( @RequestHeader( name = "UMU-Usuario", required = true ) String usuario, @RequestParam( name = "page", defaultValue = "0" ) int page, @RequestParam( name = "size", defaultValue = "25" ) int size )
 			throws Exception {
 		DocumentoIdentidad documento = authService.parseUserHeader( usuario );
-		return pagedResourcesAssembler.toModel( listaVuelosQueryHandler.handle( ListaVuelosQuery.of( documento, page, page ) ), vuelosModelAssemblerV2 );
+		return pagedResourcesAssembler.toModel( listaVuelosQueryHandler.handle( ListaVuelosQuery.of( documento, page, size ) ), vuelosModelAssemblerV2 );
 	}
 
 	@GetMapping( Constants.PRIVATE_PREFIX + Constants.API_VERSION_2 + Constants.RESOURCE_VUELOS + Constants.ID_VUELOS )

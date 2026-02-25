@@ -27,6 +27,6 @@ public class VuelosQueryEndpointV1 {
 
 	@GetMapping( Constants.PRIVATE_PREFIX + Constants.API_VERSION_1 + Constants.RESOURCE_VUELOS )
 	public CollectionModel<VueloDTO> getVuelos( @RequestParam( name = "page", defaultValue = "0" ) int page, @RequestParam( name = "size", defaultValue = "25" ) int size ) throws Exception {
-		return pagedResourcesAssembler.toModel( listaVuelosQueryHandler.handle( ListaVuelosQuery.of( null, page, page ) ), vuelosModelAssemblervV1 );
+		return pagedResourcesAssembler.toModel( listaVuelosQueryHandler.handle( ListaVuelosQuery.of( null, page, size ) ), vuelosModelAssemblervV1 );
 	}
 }

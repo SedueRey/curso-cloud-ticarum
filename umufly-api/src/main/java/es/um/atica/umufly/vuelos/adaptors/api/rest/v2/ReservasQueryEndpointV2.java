@@ -40,7 +40,7 @@ public class ReservasQueryEndpointV2 {
 	@GetMapping( Constants.PRIVATE_PREFIX + Constants.API_VERSION_2 + Constants.RESOURCE_RESERVAS_VUELO )
 	public CollectionModel<ReservaVueloDTO> getReservas( @RequestHeader( name = "UMU-Usuario", required = true ) String usuario, @RequestParam( name = "page", defaultValue = "0" ) int page, @RequestParam( name = "size", defaultValue = "25" ) int size )
 			throws Exception {
-		return pagedResourcesAssembler.toModel( listaReservasQueryHandler.handle( ListaReservasQuery.of( authService.parseUserHeader( usuario ), page, page ) ), reservasModelAssembler );
+		return pagedResourcesAssembler.toModel( listaReservasQueryHandler.handle( ListaReservasQuery.of( authService.parseUserHeader( usuario ), page, size ) ), reservasModelAssembler );
 	}
 
 	@GetMapping( Constants.PRIVATE_PREFIX + Constants.API_VERSION_2 + Constants.RESOURCE_RESERVAS_VUELO + Constants.ID_RESERVA )
