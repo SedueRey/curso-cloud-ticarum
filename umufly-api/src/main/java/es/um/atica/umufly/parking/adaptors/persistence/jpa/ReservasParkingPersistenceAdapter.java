@@ -72,4 +72,9 @@ public class ReservasParkingPersistenceAdapter implements ReservasParkingReadRep
 
 	}
 
+	@Override
+	public UUID findIdFormalizadaByParkingById(UUID idParking) {
+		return UUID.fromString(jpaReservaParkingRepository.findById(idParking.toString()).orElseThrow(() -> new IllegalStateException( "Reserva de parking no encontrada" )).getIdParkingFormalizada());
+	}
+
 }

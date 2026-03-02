@@ -2,6 +2,7 @@ package es.um.atica.umufly.parking.application.usecase.cancelarparking;
 
 import java.time.Clock;
 import java.time.LocalDateTime;
+import java.util.UUID;
 
 import org.springframework.stereotype.Component;
 
@@ -36,7 +37,8 @@ public class CancelarParkingCommandHandler implements SyncCommandHandler<Reserva
 		reservasParkingWriteRepository.cancelParking( reserva.getId() );
 
 		// 3. Cancelamos la reserva llamando al backoffice para que se haga eco de la cancelacion
-		reservasParkingWritePort.cancelarParking( command.getDocumentoIdentidadTitular(), command.getIdParking() );
+		UUID idReservaFormalizada = reservasParkingReadRepository.findIdFormalizadaByParkingById(command.getIdParking());
+		reservasParkingWritePort.cancelarParking( command.getDocumentoIdentidadTitular(), idReservaFormalizada );
 
 		return reserva;
 	}

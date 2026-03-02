@@ -13,4 +13,6 @@ public interface ReservasParkingReadRepository {
 
 	Page<ReservaParking> findParking( DocumentoIdentidad documentoIdentidad, int pagina, int tamanioPagina );
 
+	UUID findIdFormalizadaByParkingById(UUID idParking);
+
 }
