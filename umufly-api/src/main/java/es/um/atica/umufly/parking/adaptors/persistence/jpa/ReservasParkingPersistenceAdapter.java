@@ -10,6 +10,7 @@ import org.springframework.stereotype.Component;
 
 import es.um.atica.umufly.parking.adaptors.persistence.jpa.entity.EstadoParkingEnum;
 import es.um.atica.umufly.parking.adaptors.persistence.jpa.entity.ReservaParkingEntity;
+import es.um.atica.umufly.parking.adaptors.persistence.jpa.entity.TipoEstacionamientoEnum;
 import es.um.atica.umufly.parking.adaptors.persistence.jpa.mapper.JpaPersistenceMapper;
 import es.um.atica.umufly.parking.adaptors.persistence.jpa.repository.JpaReservaParkingRepository;
 import es.um.atica.umufly.parking.adaptors.persistence.jpa.repository.JpaReservaParkingViewRepository;
@@ -17,6 +18,8 @@ import es.um.atica.umufly.parking.adaptors.persistence.jpa.repository.JpaTipoEst
 import es.um.atica.umufly.parking.application.port.ReservasParkingReadRepository;
 import es.um.atica.umufly.parking.application.port.ReservasParkingWriteRepository;
 import es.um.atica.umufly.parking.domain.model.DocumentoIdentidad;
+import es.um.atica.umufly.parking.domain.model.Estacionamiento;
+import es.um.atica.umufly.parking.domain.model.Importe;
 import es.um.atica.umufly.parking.domain.model.ReservaParking;
 
 @Component
@@ -76,5 +79,14 @@ public class ReservasParkingPersistenceAdapter implements ReservasParkingReadRep
 	public UUID findIdFormalizadaByParkingById(UUID idParking) {
 		return UUID.fromString(jpaReservaParkingRepository.findById(idParking.toString()).orElseThrow(() -> new IllegalStateException( "Reserva de parking no encontrada" )).getIdParkingFormalizada());
 	}
+
+	@Override
+	public void actualizarImporteParking( UUID id, Estacionamiento estacionamiento, Importe importe ) {
+		ReservaParkingEntity entidad = jpaReservaParkingRepository.findById( id.toString() ).orElseThrow( () -> new IllegalStateException( "Reserva de parking no encontrada" ) );
+		entidad.setTipo( TipoEstacionamientoEnum.valueOf( estacionamiento.tipo().toString() ) );
+		entidad.setValorEstacionamiento( importe.valor() );
+		jpaReservaParkingRepository.save( entidad );
+	}
+
 
 }

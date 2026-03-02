@@ -2,6 +2,7 @@ package es.um.atica.umufly.vuelos.application.usecase.cancelarreservas;
 
 import java.time.Clock;
 import java.time.LocalDateTime;
+import java.util.NoSuchElementException;
 import java.util.UUID;
 
 import org.springframework.stereotype.Component;
@@ -32,13 +33,17 @@ public class CancelarReservaCommandHandler implements SyncCommandHandler<Reserva
 		// 1. Recuperamos la reserva
 		ReservaVuelo reservaVuelo = reservasVueloReadRepository.findReservaById( command.getDocumentoIdentidadTitular(), command.getIdReserva() );
 
-		// 2. Cancelamos la reserva en el fronOffice
 		reservaVuelo.cancelarReserva( LocalDateTime.now( clock ) );
-		reservasVueloWriteRepository.cancelReserva( reservaVuelo.getId() );
-
-		// 3. Cancelamos la reserva llamando al backoffice para que se haga eco de la cancelacion
 		UUID idReservaFormalizada = reservasVueloReadRepository.findIdFormalizadaByReservaById(command.getIdReserva());
+
+		// 2. Cancelamos la reserva llamando al backoffice para que se haga eco de la cancelacion
+		if ( idReservaFormalizada == null ) {
+			throw new NoSuchElementException("La reserva indicada no ha sido solicitada a traves de umufly, pongase en contacto con MUCHO VUELO");
+		}
 		formalizacionReservasVueloPort.cancelarReservaVuelo( command.getDocumentoIdentidadTitular(), idReservaFormalizada );
+
+		// 3. Cancelamos la reserva en el fronOffice
+		reservasVueloWriteRepository.cancelReserva( reservaVuelo.getId() );
 
 		return reservaVuelo;
 	}

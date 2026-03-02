@@ -43,22 +43,23 @@ public class ReservaParkingEntity {
 	@NotNull
 	@Column( name = "FECHA_FIN", nullable = false )
 	private LocalDateTime fechaFin;
-	
+
 	@NotNull
 	@Column( name = "ESTADO_RESERVA", length = 2, nullable = false )
 	@Enumerated( value = EnumType.STRING )
 	private EstadoParkingEnum estadoReserva;
-	
-	@NotNull
-	@Column( name = "TIPO", nullable = false, length = 2 )
+
+	@Column( name = "TIPO", nullable = true, length = 2 )
 	@Enumerated( value = EnumType.STRING )
 	private TipoEstacionamientoEnum tipo;
 
+	@Column( name = "VALOR_ESTACIONAMIENTO", nullable = true )
+	private double valorEstacionamiento;
+
 	@Column( name = "ID_RESERVA_FORMALIZADA", length = 36, nullable = true )
 	private String idParkingFormalizada;
-	
-	@NotNull
-	@Column( name = "IMPORTE", nullable = false )
+
+	@Column( name = "IMPORTE", nullable = true )
 	private double importe;
 
 	public String getId() {
@@ -116,7 +117,7 @@ public class ReservaParkingEntity {
 	public void setFechaFin( LocalDateTime fechaFin ) {
 		this.fechaFin = fechaFin;
 	}
-	
+
 	public EstadoParkingEnum getEstadoReserva() {
 		return estadoReserva;
 	}
@@ -132,7 +133,15 @@ public class ReservaParkingEntity {
 	public void setTipo( TipoEstacionamientoEnum tipo ) {
 		this.tipo = tipo;
 	}
-	
+
+	public double getValorEstacionamiento() {
+		return valorEstacionamiento;
+	}
+
+	public void setValorEstacionamiento( double valorEstacionamiento ) {
+		this.valorEstacionamiento = valorEstacionamiento;
+	}
+
 	public String getIdParkingFormalizada() {
 		return idParkingFormalizada;
 	}
@@ -140,7 +149,7 @@ public class ReservaParkingEntity {
 	public void setIdParkingFormalizada( String idParkingFormalizada ) {
 		this.idParkingFormalizada = idParkingFormalizada;
 	}
-	
+
 	public double getImporte() {
 		return importe;
 	}

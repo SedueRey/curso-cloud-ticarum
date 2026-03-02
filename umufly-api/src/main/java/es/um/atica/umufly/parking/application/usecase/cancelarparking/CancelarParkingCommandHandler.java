@@ -2,6 +2,7 @@ package es.um.atica.umufly.parking.application.usecase.cancelarparking;
 
 import java.time.Clock;
 import java.time.LocalDateTime;
+import java.util.NoSuchElementException;
 import java.util.UUID;
 
 import org.springframework.stereotype.Component;
@@ -32,13 +33,17 @@ public class CancelarParkingCommandHandler implements SyncCommandHandler<Reserva
 		// 1. Recuperamos la reserva
 		ReservaParking reserva = reservasParkingReadRepository.findParkingById( command.getDocumentoIdentidadTitular(), command.getIdParking() );
 
-		// 2. Cancelamos la reserva en el fronOffice
 		reserva.cancelarParking( LocalDateTime.now( clock ) );
-		reservasParkingWriteRepository.cancelParking( reserva.getId() );
+		UUID idReservaFormalizada = reservasParkingReadRepository.findIdFormalizadaByParkingById( command.getIdParking() );
 
-		// 3. Cancelamos la reserva llamando al backoffice para que se haga eco de la cancelacion
-		UUID idReservaFormalizada = reservasParkingReadRepository.findIdFormalizadaByParkingById(command.getIdParking());
+		// 2. Cancelamos la reserva llamando al backoffice para que se haga eco de la cancelacion
+		if ( idReservaFormalizada == null ) {
+			throw new NoSuchElementException( "La reserva indicada no ha sido solicitada a traves de umufly, pongase en contacto con MUCHO VUELO" );
+		}
 		reservasParkingWritePort.cancelarParking( command.getDocumentoIdentidadTitular(), idReservaFormalizada );
+
+		// 2. Cancelamos la reserva en el fronOffice
+		reservasParkingWriteRepository.cancelParking( reserva.getId() );
 
 		return reserva;
 	}

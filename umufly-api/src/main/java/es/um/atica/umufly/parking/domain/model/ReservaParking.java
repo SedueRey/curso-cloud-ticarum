@@ -78,22 +78,23 @@ public class ReservaParking {
 		if ( periodoEstacionamiento.inicio().isBefore( fechaReserva ) ) {
 			throw new IllegalArgumentException( "No se puede realizar una reserva para un periodo anterior a la fecha actual" );
 		}
-		Estacionamiento estacionamiento = crearEstacionamiento( periodoEstacionamiento );
-		Importe importe = new Importe( calcularImporte( identificadorPasajero, estacionamiento, periodoEstacionamiento ) );
-		return of( UUID.randomUUID(), identificadorPasajero, estacionamiento, periodoEstacionamiento, importe, fechaReserva, EstadoParking.PENDIENTE );
+		// Estacionamiento estacionamiento = crearEstacionamiento( periodoEstacionamiento );
+		// Importe importe = new Importe( calcularImporte( identificadorPasajero, estacionamiento, periodoEstacionamiento ) );
+		return of( UUID.randomUUID(), identificadorPasajero, null, periodoEstacionamiento, null, fechaReserva, EstadoParking.PENDIENTE );
 	}
 
-	private static Estacionamiento crearEstacionamiento( Periodo periodoEstacionamiento ) {
+	public void crearEstacionamiento( Periodo periodoEstacionamiento ) {
 		long dias = ChronoUnit.DAYS.between( periodoEstacionamiento.inicio(), periodoEstacionamiento.fin() );
 		// TODO: Es correcto obtener asi el precio del estacionamiento? La idea es que esta información la coja de la vista
 		// VWEXT_TIPO_ESTACIONAMIENTO a traves de un evento.
 		if ( dias == 0 ) {
-			return new Estacionamiento( TipoEstacionamiento.CORTA_DURACION, 0.02 );
+			this.estacionamiento = new Estacionamiento( TipoEstacionamiento.CORTA_DURACION, 0.02 );
+		} else {
+			this.estacionamiento = new Estacionamiento( TipoEstacionamiento.LARGA_DURACION, 7.0 );
 		}
-		return new Estacionamiento( TipoEstacionamiento.LARGA_DURACION, 7.0 );
 	}
 
-	private static double calcularImporte( DocumentoIdentidad identificadorPasajero, Estacionamiento estacionamiento, Periodo periodoEstacionamiento ) {
+	public void calcularImporte( DocumentoIdentidad identificadorPasajero, Estacionamiento estacionamiento, Periodo periodoEstacionamiento ) {
 		double valor = 0;
 		if ( TipoEstacionamiento.CORTA_DURACION.equals( estacionamiento.tipo() ) ) {
 			Duration duration  = Duration.between( periodoEstacionamiento.inicio(), periodoEstacionamiento.fin() );
@@ -107,7 +108,7 @@ public class ReservaParking {
 		// if() {
 		// valor = valor * 0.75;
 		// }
-		return valor;
+		this.importe = new Importe( valor );
 	}
 
 	public void formalizarParking() {

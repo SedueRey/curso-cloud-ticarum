@@ -31,6 +31,11 @@ public class CrearParkingCommandHandler implements SyncCommandHandler<ReservaPar
 		ReservaParking reserva = ReservaParking.solicitarParking( command.getDocumentoIdentidadTitular(), command.getPeriodoEstacionamiento(), LocalDateTime.now( clock ) );
 		reservasParkingWriteRepository.persistirParking( reserva );
 
+		// Lo dejamos listo para cuando metamos eventos
+		reserva.crearEstacionamiento( command.getPeriodoEstacionamiento() );
+		reserva.calcularImporte( command.getDocumentoIdentidadTitular(), reserva.getEstacionamiento(), command.getPeriodoEstacionamiento() );
+		reservasParkingWriteRepository.actualizarImporteParking( reserva.getId(), reserva.getEstacionamiento(), reserva.getImporte() );
+
 		// 2. Formalizamos la reserva llamando al backoffice para que se haga eco de la nueva reserva que acabamos de crear
 		UUID idParkingFormalizada = reservasParkingWritePort.formalizarParking( reserva );
 		reserva.formalizarParking();
