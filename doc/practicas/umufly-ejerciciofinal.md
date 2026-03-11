@@ -63,7 +63,7 @@ El esquema de base de datos disponible de las siguientes tablas ya creadas
     id_remitente        VARCHAR2(100) NOT NULL,
     id_destinatario     VARCHAR2(100) NOT NULL,
     id_paquete          VARCHAR2(100) NOT NULL,
-    id_vuelo            VARCHAR2(50),
+    id_vuelo            VARCHAR2(50) NOT NULL,
     id_seguimiento      VARCHAR2(50) NOT NULL,
     importe_envio       NUMBER(10,2) NOT NULL,
     estado              VARCHAR2(20) NOT NULL,
